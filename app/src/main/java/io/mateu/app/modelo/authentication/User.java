@@ -61,6 +61,10 @@ public class User implements WithTriggers {
     private Fichero photo;
 
 
+    @ManyToMany
+    private List<Account> accounts = new ArrayList<>();
+
+
     @Override
     public void beforeSet(EntityManager em, boolean isNew) throws Exception {
 
