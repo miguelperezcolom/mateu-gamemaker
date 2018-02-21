@@ -1,7 +1,9 @@
 package io.mateu.app;
 
 import com.google.common.collect.Lists;
+import io.mateu.app.modelo.common.Fichero;
 import io.mateu.app.modelo.gamemaker.Game;
+import io.mateu.app.modelo.gamemaker.GithubRepository;
 import io.mateu.app.modelo.gamemaker.Level;
 import io.mateu.app.modelo.gamemaker.Pawn;
 import io.mateu.ui.core.client.app.AbstractAction;
@@ -24,7 +26,9 @@ public class Modulo extends AbstractModule {
 
                 new MDDAction("Games", Game.class),
                 new MDDAction("Levels", Level.class),
-                new MDDAction("Pawns", Pawn.class)
+                new MDDAction("Pawns", Pawn.class),
+                new MDDAction("Assets", Fichero.class),
+                new MDDAction("Github repositories", GithubRepository.class)
 
         );
     }

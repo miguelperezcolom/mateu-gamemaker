@@ -58,7 +58,7 @@ public class Fichero implements io.mateu.ui.mdd.server.interfaces.File {
         } else url = new URL(baseUrl + "/" + temp.getName());
 
 
-        return new FileLocator(id, temp.getName(), url.toString());
+        return new FileLocator(id, temp.getName(), url.toString(), temp.getAbsolutePath());
     }
 
     @Override
