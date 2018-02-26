@@ -180,7 +180,7 @@ public class Game {
                 "\n" +
                 "cp -rf android/assets html/build/dist\n" +
                 "./gradlew android:assembleRelease\n\n" +
-                "cp android/build/outputs/apk/android-release.unsigned.apk html/build/dist\n" +
+                "cp android/build/outputs/apk/android-release-unsigned.apk html/build/dist\n" +
                 "", s, Charset.defaultCharset());
 
         Helper.run("chmod u+x " + s.getAbsolutePath());
