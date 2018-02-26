@@ -198,7 +198,7 @@ public class Game {
                 "    server_name " + getId() + ".gamemaker.mateu.io" + ";\n" +
                 "\n" +
                 "    location / {\n" +
-                "            root " + d.getAbsolutePath() + "/data/html/dist" + ";\n" +
+                "            root " + d.getAbsolutePath() + "/data/html/build/dist" + ";\n" +
                 "    }\n" +
                 "\n" +
                 "}\n", s, Charset.defaultCharset());
