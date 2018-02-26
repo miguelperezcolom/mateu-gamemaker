@@ -31,7 +31,6 @@ public class Level {
     private Pawn player;
 
     @OneToMany
-    @Output
     private List<Pawn> pawns = new ArrayList<>();
 
     @ManyToOne
