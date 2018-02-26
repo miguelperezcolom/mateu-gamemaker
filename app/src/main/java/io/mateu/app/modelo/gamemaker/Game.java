@@ -198,10 +198,22 @@ public class Game {
                 "    #listen       80;\n" +
                 "    #listen       somename:8080;\n" +
                 "    #server_name  somename  alias  another.alias;\n" +
-                "    server_name " + getId() + ".gamemaker.mateu.io" + ";\n" +
+                "    server_name web." + getId() + ".gamemaker.mateu.io" + ";\n" +
                 "\n" +
                 "    location / {\n" +
                 "            root " + d.getAbsolutePath() + "/data/html/build/dist" + ";\n" +
+                "    }\n" +
+                "\n" +
+                "}\n" +
+                "\n" +
+                "server {\n" +
+                "    #listen       80;\n" +
+                "    #listen       somename:8080;\n" +
+                "    #server_name  somename  alias  another.alias;\n" +
+                "    server_name android." + getId() + ".gamemaker.mateu.io" + ";\n" +
+                "\n" +
+                "    location / {\n" +
+                "            root " + d.getAbsolutePath() + "/data/android/web" + ";\n" +
                 "    }\n" +
                 "\n" +
                 "}\n", s, Charset.defaultCharset());
