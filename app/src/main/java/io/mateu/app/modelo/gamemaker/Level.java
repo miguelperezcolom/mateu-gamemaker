@@ -27,7 +27,7 @@ public class Level {
     private Game game;
 
     @ManyToOne
-    Pawn player;
+    private Pawn player;
 
     @OneToMany
     private List<Pawn> pawns = new ArrayList<>();
@@ -47,18 +47,10 @@ public class Level {
          */
         Element xml = new Element("nivel").setAttribute("nombre", getName()).setAttribute("ancho", "800").setAttribute("alto", "600");
 
-        xml.addContent(new Element("jugador").setAttribute("img", getPlayer().getImages().get(0).getPathAndName()).setAttribute("ancho", "64").setAttribute("alto", "64"));
+        xml.addContent(getPlayer().toXml().setName("jugador"));
 
         for (Pawn p : getPawns()) {
-            if (!p.isFriend()) {
-                xml.addContent(new Element("malo")
-                        .setAttribute("img", p.getImages().get(0).getPathAndName())
-                        .setAttribute("ancho", "64")
-                        .setAttribute("alto", "64")
-                        .setAttribute("frecuencia", "" + p.getFrequencyMilliseconds())
-                        .setAttribute("sonidoDestruido", "blast.wav")
-                );
-            }
+            xml.addContent(p.toXml().setName("malo"));
         }
 
         xml.addContent(new Element("musica").setAttribute("src", "masai.mp3"));

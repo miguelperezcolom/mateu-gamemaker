@@ -2,6 +2,7 @@ package io.mateu.app.modelo.gamemaker;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jdom2.Element;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,4 +21,8 @@ public class Actor {
     @ManyToOne
     @NotNull
     private Game game;
+
+    public Element toXml() {
+        return new Element("actor");
+    }
 }

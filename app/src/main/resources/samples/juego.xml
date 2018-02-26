@@ -1,0 +1,9 @@
+<juego nombre="ssss">
+    <menu ancho="800" alto="600" />
+    <nivel nombre="l1" ancho="800" alto="600">
+        <jugador img="/img/ship1.png" ancho="64" alto="64" />1
+        <malo img="/img/alien1.png" ancho="64" alto="64" frecuencia="100000" sonidoDestruido="blast.wav" />
+        <malo img="/img/alien1.png" ancho="64" alto="64" frecuencia="500000" sonidoDestruido="blast.wav" />
+        <musica src="masai.mp3" />
+    </nivel>
+</juego>
