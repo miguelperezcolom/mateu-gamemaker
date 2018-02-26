@@ -1,5 +1,6 @@
 package io.mateu.app.modelo.common;
 
+import com.google.common.base.Strings;
 import io.mateu.ui.core.server.Utils;
 import io.mateu.ui.core.shared.FileLocator;
 import lombok.Getter;
@@ -67,4 +68,11 @@ public class Fichero implements io.mateu.ui.mdd.server.interfaces.File {
         setBytes(Utils.readBytes(tmpPath));
     }
 
+    public String getPathAndName() {
+        String p = "";
+        if (!Strings.isNullOrEmpty(getPath())) p += getPath();
+        if (!"".equals(p) && !p.endsWith("/")) p += "/";
+        p += getName();
+        return p;
+    }
 }

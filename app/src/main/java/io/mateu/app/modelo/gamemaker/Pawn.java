@@ -15,6 +15,15 @@ import java.util.List;
 @Setter
 public class Pawn extends Actor {
 
+    private int strength;
+
+    private int damage;
+
+    private boolean friend;
+
+    private int frequencyMilliseconds = 0;
+
+
     @OneToMany
     private List<Fichero> images = new ArrayList<>();
 

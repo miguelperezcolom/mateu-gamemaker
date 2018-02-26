@@ -26,8 +26,10 @@ public class Level {
     @NotNull
     private Game game;
 
+    @ManyToOne
+    Pawn player;
+
     @OneToMany
-    @Output
     private List<Pawn> pawns = new ArrayList<>();
 
     public Element toXml() {
@@ -45,15 +47,19 @@ public class Level {
          */
         Element xml = new Element("nivel").setAttribute("nombre", getName()).setAttribute("ancho", "800").setAttribute("alto", "600");
 
-        xml.addContent(new Element("jugador").setAttribute("img", "ship1.png").setAttribute("ancho", "64").setAttribute("alto", "64"));
+        xml.addContent(new Element("jugador").setAttribute("img", getPlayer().getImages().get(0).getPathAndName()).setAttribute("ancho", "64").setAttribute("alto", "64"));
 
-        xml.addContent(new Element("malo")
-                .setAttribute("img", "ship1.png")
-                .setAttribute("ancho", "64")
-                .setAttribute("alto", "64")
-                .setAttribute("origen", "random")
-                .setAttribute("sonidoDestruido", "blast.wav")
-        );
+        for (Pawn p : getPawns()) {
+            if (!p.isFriend()) {
+                xml.addContent(new Element("malo")
+                        .setAttribute("img", p.getImages().get(0).getPathAndName())
+                        .setAttribute("ancho", "64")
+                        .setAttribute("alto", "64")
+                        .setAttribute("frecuencia", "" + p.getFrequencyMilliseconds())
+                        .setAttribute("sonidoDestruido", "blast.wav")
+                );
+            }
+        }
 
         xml.addContent(new Element("musica").setAttribute("src", "masai.mp3"));
 
