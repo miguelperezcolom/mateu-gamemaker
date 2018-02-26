@@ -6,6 +6,7 @@ import io.mateu.app.modelo.authentication.Account;
 import io.mateu.app.modelo.authentication.Audit;
 import io.mateu.app.modelo.authentication.User;
 import io.mateu.app.modelo.common.Fichero;
+import io.mateu.app.modelo.config.AppConfig;
 import io.mateu.app.util.Helper;
 import io.mateu.erp.model.util.JPATransaction;
 import io.mateu.ui.core.shared.FileLocator;
@@ -84,6 +85,9 @@ public class Game {
 
         File d = new File(System.getProperty("tmpdir", System.getProperty("java.io.tmpdir")) + "/game_" + getId());
 
+        System.out.println("publicando juego en " + d.getAbsolutePath());
+
+
         if (!d.exists()) {
             d.mkdirs();
             d.mkdir();
@@ -147,6 +151,26 @@ public class Game {
 
         Files.write(new XMLOutputter(Format.getPrettyFormat()).outputString(toXml()), new File(d.getAbsolutePath() + "/data/android/assets/juego.xml"), Charset.defaultCharset());
 
+
+
+        File dh = new File(d.getAbsolutePath() + "/createweb.sh");
+        if (!dh.exists()) {
+            s = new File(d.getAbsolutePath() + "/createweb.sh");
+            Files.write("#!/bin/sh\n" +
+                    "\n" +
+                    "\n" +
+                    "echo \"hola\"\n" +
+                    "cd " + d.getAbsolutePath() + "/data\n" +
+                    "\n" +
+                    "./gradlew html:dist\n" +
+                    "", s, Charset.defaultCharset());
+
+            Helper.run("chmod u+x " + s.getAbsolutePath());
+            Helper.run(s.getAbsolutePath());
+        }
+
+
+
         s = new File(d.getAbsolutePath() + "/dist.sh");
         Files.write("#!/bin/sh\n" +
                 "\n" +
@@ -154,12 +178,42 @@ public class Game {
                 "echo \"hola\"\n" +
                 "cd " + d.getAbsolutePath() + "/data\n" +
                 "\n" +
-                "gradle html:dist \n" +
+                "cp -rf android/assets html/build/dist\n" +
+                "./gradlew android:assembleRelease\n" +
                 "", s, Charset.defaultCharset());
 
         Helper.run("chmod u+x " + s.getAbsolutePath());
         Helper.run(s.getAbsolutePath());
 
+
+        s = new File(AppConfig.get(em).getNginxConfigDirectory() + "/game_"  + getId() + ".conf");
+        Files.write("#\n" +
+                "# A virtual host using mix of IP-, name-, and port-based configuration\n" +
+                "#\n" +
+                "\n" +
+                "server {\n" +
+                "    #listen       80;\n" +
+                "    #listen       somename:8080;\n" +
+                "    #server_name  somename  alias  another.alias;\n" +
+                "    server_name " + getId() + ".gamemaker.mateu.io" + ";\n" +
+                "\n" +
+                "    location / {\n" +
+                "            root " + d.getAbsolutePath() + "/data/html/dist" + ";\n" +
+                "    }\n" +
+                "\n" +
+                "}\n", s, Charset.defaultCharset());
+
+        Helper.run(AppConfig.get(em).getNginxReloadCommand());
+
+    }
+
+
+    public Game() {
+
+    }
+
+    public Game(EntityManager em, Element xml) {
+        fill(em, xml);
     }
 
 
@@ -177,4 +231,32 @@ public class Game {
         });
     }
 
+    public void fill(EntityManager em, Element xml) {
+
+        for (Level o : getLevels()) {
+            em.remove(o);
+            em.remove(o.getPlayer());
+            o.getPawns().forEach((p) -> em.remove(p));
+        }
+        getLevels().clear();
+
+
+        /*
+        <juego nombre="ssss">
+    <menu ancho="800" alto="600" />
+    <nivel nombre="l1" ancho="800" alto="600">
+        <jugador img="nave1x.png" ancho="64" alto="64" />1
+        <malo img="marciano1x.png" ancho="64" alto="64" frecuencia="100000" sonidoDestruido="blast.wav" />
+        <malo img="marciano2x.png" ancho="64" alto="64" frecuencia="500000" sonidoDestruido="blast.wav" />
+        <malo img="marciano3x.png" ancho="64" alto="64" frecuencia="500000" sonidoDestruido="blast.wav" />
+        <musica src="masai.mp3" />
+    </nivel>
+</juego>
+         */
+        for (Element en : xml.getChildren("nivel")) {
+            Level l;
+            getLevels().add(l = new Level(em, en));
+            em.persist(l);
+        }
+    }
 }
