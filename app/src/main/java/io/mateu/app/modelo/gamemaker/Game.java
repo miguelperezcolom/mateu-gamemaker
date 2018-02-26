@@ -154,7 +154,7 @@ public class Game {
 
 
         File dh = new File(d.getAbsolutePath() + "/createweb.sh");
-        if (!dh.exists()) {
+        if (true || !dh.exists()) {
             s = new File(d.getAbsolutePath() + "/createweb.sh");
             Files.write("#!/bin/sh\n" +
                     "\n" +
@@ -178,11 +178,16 @@ public class Game {
                 "echo \"hola\"\n" +
                 "cd " + d.getAbsolutePath() + "/data\n" +
                 "\n" +
-                "rm -rf html/build/dist/assets\n" +
-                "cp -rf android/assets html/build/dist\n" +
+ //               "rm -rf html/build/dist/assets\n" +
+//                "cp -rf android/assets html/build/dist\n" +
                 "./gradlew android:assembleRelease\n\n" +
+                "" +
+                "zipalign -v -p 4 android/build/outputs/apk/android-release-unsigned.apk android/build/outputs/apk/android-release-unsigned-aligned.apk\n" +
+                "apksigner sign --ks /home/gm/my-release-key.jks --ks-pass pass:antonia --out android/build/outputs/apk/android-signed-release.apk android/build/outputs/apk/android-release-unsigned-aligned.apk\n" +
+                "apksigner verify android/build/outputs/apk/android-release-signed.apk\n" +
                 "rm -rf android/web/android-release-unsigned.apk\n" +
-                "cp -rf android/build/outputs/apk/android-release-unsigned.apk android/web\n" +
+                "cp android/build/outputs/apk/android-release-signed.apk android/web\n" +
+                "" +
                 "", s, Charset.defaultCharset());
 
         Helper.run("chmod u+x " + s.getAbsolutePath());
