@@ -23,6 +23,15 @@ public class Helper {
         }
         in.close();
 
+        BufferedReader errinput = new BufferedReader(new InputStreamReader(
+                p.getErrorStream()));
+        while ((line = in.readLine()) != null) {
+            System.out.println(line);
+            sb.append(line);
+        }
+        in.close();
+
+
         return sb.toString();
     }
 }
