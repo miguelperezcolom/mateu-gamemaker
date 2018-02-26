@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 public class Helper {
 
     public static String run(String cmd) throws IOException {
+
+        System.out.println("ejecutando " + cmd);
+
         Process p = Runtime.getRuntime().exec( cmd );
 
         StringBuffer sb = new StringBuffer();
