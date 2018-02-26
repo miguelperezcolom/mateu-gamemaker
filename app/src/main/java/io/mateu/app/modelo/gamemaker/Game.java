@@ -135,11 +135,19 @@ public class Game {
 
 
         for (Level l : getLevels()) {
+            for (Fichero f : l.getPlayer().getImages()) {
+                FileLocator fl = f.toFileLocator();
+                File dest = new File(d.getAbsolutePath() + "/data/android/assets/" + f.getPath() + "/" + f.getName());
+                dest.getParentFile().mkdirs();
+                System.out.println("copiando " + fl.getTmpPath() + " a " + dest.getAbsolutePath());
+                Files.copy(new File(fl.getTmpPath()), dest);
+            }
             for (Pawn p : l.getPawns()) {
                 for (Fichero f : p.getImages()) {
                     FileLocator fl = f.toFileLocator();
                     File dest = new File(d.getAbsolutePath() + "/data/android/assets/" + f.getPath() + "/" + f.getName());
                     dest.getParentFile().mkdirs();
+                    System.out.println("copiando " + fl.getTmpPath() + " a " + dest.getAbsolutePath());
                     Files.copy(new File(fl.getTmpPath()), dest);
                 }
             }
