@@ -178,9 +178,11 @@ public class Game {
                 "echo \"hola\"\n" +
                 "cd " + d.getAbsolutePath() + "/data\n" +
                 "\n" +
+                "rm -rf html/build/dist/assets\n" +
                 "cp -rf android/assets html/build/dist\n" +
                 "./gradlew android:assembleRelease\n\n" +
-                "cp android/build/outputs/apk/android-release-unsigned.apk html/build/dist\n" +
+                "rm -rf android/web/android-release-unsigned.apk\n" +
+                "cp -rf android/build/outputs/apk/android-release-unsigned.apk android/web\n" +
                 "", s, Charset.defaultCharset());
 
         Helper.run("chmod u+x " + s.getAbsolutePath());
