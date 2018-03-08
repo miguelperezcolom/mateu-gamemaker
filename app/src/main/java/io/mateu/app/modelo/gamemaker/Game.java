@@ -157,7 +157,7 @@ public class Game {
             }
         }
 
-        Files.write(new XMLOutputter(Format.getPrettyFormat()).outputString(toXml()), new File(d.getAbsolutePath() + "/data/android/assets/juego.xml"), Charset.defaultCharset());
+        //Files.write(new XMLOutputter(Format.getPrettyFormat()).outputString(toXml()), new File(d.getAbsolutePath() + "/data/android/assets/juego.xml"), Charset.defaultCharset());
 
 
 
